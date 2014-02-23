@@ -26,5 +26,11 @@ Vagrant::Config.run do |config|
         '--memory', ram
       ]
   
+  # Docker Provision can automatically install docker, pull docker containers
+  # and configure certain containers to run on boot.
+  config.vm.provision "docker" do |d|
+    d.pull_images "ubuntu"
+  end
 end
+
 
