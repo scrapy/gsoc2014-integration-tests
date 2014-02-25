@@ -6,7 +6,9 @@ hostname = "scrapy-gsoc2014-it"
 ram = "512"
 
 
-Vagrant::Config.run do |config|
+# Make sure you have the latest version of Vagrant 1.4.3 and Virtualbox 4.3.6 installed in your system before running this Vagrantfile.
+  
+Vagrant::configure("2") do |config|
   # All Vagrant configuration is done here.
   
   # Every Vagrant virtual environment requires a box to build off of.
@@ -19,12 +21,14 @@ Vagrant::Config.run do |config|
   # Hostname
   config.vm.host_name = hostname
 
-  # Customization
-  config.vm.customize [
-        'modifyvm', :id,
-        '--name', hostname,
-        '--memory', ram
-      ]
-  
+  config.vm.provider :virtualbox do |vb, override|
+  end
+
+  # Docker Provision can automatically install docker, pull docker containers
+  # and configure certain containers to run on boot.
+  config.vm.provision "docker" do |docker|
+    # Pulling images
+    docker.pull_images "ubuntu" 
+  end  
 end
 
